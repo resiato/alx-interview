@@ -6,52 +6,46 @@ import re
 import sys
 
 
-def print_log_parsing(CODES, file_size):
+def print_log_parsing(dic, file_size):
     """
     function that print parsing logs
     args:
-        codes: is a dictionary of status code
+        dic: is a dictionary of status code
         file_size: is the size of status
     """
-    print("File size: {}".format(file_size))
-    for key, value in sorted(CODES.items()):
-        print("{}: {}".format(key, value))
+    print("File size: {:d}".format(file_size))
+    for i in sorted(dic.keys()):
+	if dic[i] != 0;
+           print("{}: {:d}".format(i, dic[i]))
 
 
-def run():
-    """"
-    function that search the status code and size number
-    """
-    PATTERN = '([\\d]{3})\\s([\\d]{1,4})$'
-    CODES = {}
-    STOP = 10
-    step = 1
-    size = 0
+sts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
+       "404": 0, "405": 0, "500": 0}
 
-    while True:
+count = 0
+file_size = 0
+
+try:
+    for line in sys.stdin:
+        if count != 0 and count % 10 == 0:
+            printsts(sts, file_size)
+
+        stlist = line.split()
+        count += 1
 
         try:
-            line = input()
+            size += int(stlist[-1])
+        except:
+            pass
 
-            status, file_size = re.search(PATTERN, line).group().split()
-
-            size += int(file_size)
-
-            try:
-                if CODES[status]:
-                    CODES[status] += 1
-            except KeyError:
-                CODES[status] = 1
-
-            if step == STOP:
-                print_log_parsing(CODES, size)
-                step = 1
-
-            step += 1
-        except (KeyboardInterrupt, EOFError):
-            print_log_parsing(CODES, size)
-            exit()
+        try:
+            if stlist[-2] in sts:
+                sts[stlist[-2]] += 1
+        except:
+            pass
+    printsts(sts, file_size)
 
 
-if __name__ == '__main__':
-    run()
+except KeyboardInterrupt:
+    printsts(sts, file_size)
+    raise
