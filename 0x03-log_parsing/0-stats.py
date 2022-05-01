@@ -10,7 +10,7 @@ sts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
 
 size = 0
 
-def printsts(dic, size):
+def printsts():
     """ Prints information
 
     Args:
@@ -33,8 +33,8 @@ if __name__ == '__main__':
             except:
                 pass
             if not i % 10:
-                print_info()
+                printsts()
     except KeyboardInterrupt:
-        print_info()
+        printsts()
         raise
-    print_info()
+    printsts()
